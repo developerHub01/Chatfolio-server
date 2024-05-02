@@ -36,7 +36,7 @@ export const register = async (req, res, next) => {
 };
 export const login = async (req, res, next) => {
   const { email, password } = req.body;
-  
+
   const user = await User.findOne({ email }).select("+password");
 
   if (!user) return next(errorHandler(401, "Wrong credentials"));
@@ -54,11 +54,11 @@ export const login = async (req, res, next) => {
       maxAge: 24 * 60 * 60 * 1000,
     })
     .status(200)
-    .json({ data: user, success: true });
+    .json({ user, success: true });
 };
 export const logout = async (req, res, next) => {
-  return req
+  return res
     .clearCookie("access_token")
     .status(200)
-    .json("Signout successfull");
+    .json({ success: true, message: "Signout successfull" });
 };
