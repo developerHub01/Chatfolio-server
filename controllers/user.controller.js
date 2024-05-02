@@ -10,7 +10,6 @@ export const isLoggedIn = async (req, res) => {
     const user = await User.findById(id);
     if (!user) return next(errorHandler(401, "You are not logged in"));
 
-    console.log("=================");
     return res.status(200).json({
       user,
       success: true,
