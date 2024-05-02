@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 
 const schema = new mongoose.Schema(
   {
+    googleId: {
+      type: String,
+    },
     fullName: {
       type: String,
       required: true,
