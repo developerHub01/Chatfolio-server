@@ -25,6 +25,7 @@ connectDB(process.env.MONGO_URI);
 
 import userRoute from "./routes/user.route.js";
 import authRoute from "./routes/auth.route.js";
+import chatRoute from "./routes/chat.route.js";
 // import { googleLogin } from "./utils/googleLogin.js";
 import { facebookLogin } from "./utils/facebookLogin.js";
 import session from "express-session";
@@ -63,12 +64,13 @@ app.use(passport.session());
 facebookLogin(passport);
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/chat", chatRoute);
 
 app.get("/", async (req, res) => {
   res.send("Health route...........");
 });
 
-app.use((error, req, res) => {
+app.use((error, req, res, next) => {
   const statusCode = error?.statusCode || 500;
   const message = error?.message || "Internal server error";
   return res.status(statusCode).json({
