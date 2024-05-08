@@ -9,11 +9,8 @@ dotenv.config({});
 export const register = async (req, res, next) => {
   const { fullName, userName, email, password } = req.body;
 
-  console.log(fullName, userName, email, password);
-
-  if (!fullName || !userName || !email || !password) {
+  if (!fullName || !userName || !email || !password)
     return next(errorHandler(405, "form is not filled"));
-  }
 
   let user = await User.findOne({ email });
   if (user) return next(errorHandler(400, "Email is already in use..."));
