@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import UserPreferences from "../models/user.preferences.model.js";
 import { errorHandler } from "../utils/error.js";
 import { compareSync, hashSync } from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -7,6 +8,8 @@ dotenv.config({});
 
 export const register = async (req, res, next) => {
   const { fullName, userName, email, password } = req.body;
+
+  console.log(fullName, userName, email, password);
 
   if (!fullName || !userName || !email || !password) {
     return next(errorHandler(405, "form is not filled"));
@@ -21,14 +24,17 @@ export const register = async (req, res, next) => {
   const hashedPassword = hashSync(password, 10);
 
   try {
-    await User.create({
+    const user = await User.create({
       fullName,
       userName,
       email,
       password: hashedPassword,
-      avatar:
-        "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHBvcnRyYWl0JTIwbWFufGVufDB8fDB8fHww",
     });
+
+    if (user)
+      await UserPreferences.create({
+        userId: user._id,
+      });
     return res.status(201).json({ message: "Success", success: true });
   } catch (error) {
     return next(error);

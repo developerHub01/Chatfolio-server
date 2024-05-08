@@ -6,6 +6,15 @@ import dotenv from "dotenv";
 dotenv.config({
   path: "./.env",
 });
+
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
+
 import cookieSession from "cookie-session";
 const PORT = process.env.PORT || 3000;
 import { connectDB } from "./db/connection.js";
@@ -60,8 +69,8 @@ app.get("/", async (req, res) => {
 });
 
 app.use((error, req, res) => {
-  const statusCode = error.statusCode || 500;
-  const message = error.message || "Internal server error";
+  const statusCode = error?.statusCode || 500;
+  const message = error?.message || "Internal server error";
   return res.status(statusCode).json({
     success: false,
     message,

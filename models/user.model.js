@@ -2,9 +2,6 @@ import mongoose from "mongoose";
 
 const schema = new mongoose.Schema(
   {
-    googleId: {
-      type: String,
-    },
     fullName: {
       type: String,
       required: true,
@@ -19,6 +16,10 @@ const schema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    bio: {
+      type: String,
+      default: "This is default bio.",
+    },
     password: {
       type: String,
       required: true,
@@ -26,9 +27,7 @@ const schema = new mongoose.Schema(
     },
     avatar: {
       type: String,
-      required: true,
-      default:
-        "https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg",
+      required: false,
     },
   },
   { timestamps: true }
