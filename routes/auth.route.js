@@ -3,7 +3,7 @@ import { login, logout, register } from "../controllers/auth.controller.js";
 import passport from "passport";
 const route = express.Router();
 
-/* Google OAuth start ============= */
+/* Client start ============= */
 route.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 route.get(
   "/google/callback",
