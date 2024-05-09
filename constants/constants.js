@@ -7,3 +7,5 @@ export const STORY_VIDEOS_FOLDER_NAME = "story_videos";
 export const WALLPAPER_IMAGES_FOLDER_NAME = "wallpaper_images";
 export const UNTRACKED_FOLDER = "untracked";
 export const CHATFOLIO_CLOUDINARY_ROOT_FOLDER_NAME = "chatfolio";
+
+export const searchTypeList = ["name", "username", "email", "group", "channel"];

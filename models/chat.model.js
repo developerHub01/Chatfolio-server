@@ -30,6 +30,6 @@ const schema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const User = mongoose.model("User", schema);
+const Chat = mongoose.model("Chat", schema);
 
-export default User;
+export default Chat;
