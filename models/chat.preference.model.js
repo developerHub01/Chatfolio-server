@@ -13,10 +13,9 @@ const schema = new Schema(
       type: Types.ObjectId,
       ref: "User",
     },
-    theme: {
-      type: String,
-      enum: ["light", "dark"],
-      default: "light",
+    chatId: {
+      type: Types.ObjectId,
+      ref: "Chat",
     },
     wallpaper: {
       type: String,
@@ -53,10 +52,21 @@ const schema = new Schema(
       enum: generateArray(7),
       default: 1,
     },
+    isArchived: {
+      type: Boolean,
+      default: false,
+    },
+    lastMessageAuthor: {
+      type: Types.ObjectId,
+      ref: "User",
+    },
+    lastMessage: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
 
-const UserPreferences = mongoose.model("UserPreferences", schema);
+const ChatPreference = mongoose.model("ChatPreference", schema);
 
-export default UserPreferences;
+export default ChatPreference;

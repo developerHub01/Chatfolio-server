@@ -6,8 +6,11 @@ import dotenv from "dotenv";
 dotenv.config({
   path: "./.env",
 });
-
+import { createServer } from "http";
+import { Server } from "socket.io";
+const server = createServer(app);
 import { v2 as cloudinary } from "cloudinary";
+import axios from "axios";
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -29,14 +32,21 @@ import chatRoute from "./routes/chat.route.js";
 // import { googleLogin } from "./utils/googleLogin.js";
 import { facebookLogin } from "./utils/facebookLogin.js";
 import session from "express-session";
+import Chat from "./models/chat.model.js";
+import Message from "./models/message.model.js";
+import { sendMessageIO } from "./socket/message.socket.js";
 
-app.use(
-  cors({
-    origin: ["http://localhost:5173"],
-    methods: "GET, POST, PUT, PATCH, DELETE",
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST", "PATCH", "DELETE"],
+  credentials: true,
+};
+
+const io = new Server(server, {
+  cors: corsOptions,
+});
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -49,6 +59,8 @@ app.use(cookieParser());
 //     saveUninitialized: true,
 //   })
 // );
+
+// import "./seeds/createSeeds.js";
 
 app.use(
   cookieSession({
@@ -70,6 +82,53 @@ app.get("/", async (req, res) => {
   res.send("Health route...........");
 });
 
+sendMessageIO(io);
+
+// io.on("connection", (socket) => {
+//   socket.on("sendMessage", async (data) => {
+//     const res = await axios.post("/chat/send-message", data);
+//     const resData = await res.data;
+//     console.log(resData);
+
+//     // const { senderId, message, receiverId, chatId } = data;
+
+//     // if (!chatId) {
+//     //   try {
+//     //     const chat = await Chat.create({
+//     //       chatType: "personal",
+//     //       members: [senderId, receiverId],
+//     //     });
+//     //     try {
+//     //       const newMessage = await Message.create({
+//     //         message,
+//     //         author: senderId,
+//     //         chat: chat._id,
+//     //       });
+//     //       console.log(newMessage);
+//     //     } catch (error) {
+//     //       console.log(error.message);
+//     //     }
+//     //   } catch (error) {
+//     //     console.log(error.message);
+//     //   }
+//     // } else {
+//     //   try {
+//     //     const newMessage = await Message.create({
+//     //       message,
+//     //       author: senderId,
+//     //       chat: chatId,
+//     //     });
+//     //     console.log(newMessage);
+//     //   } catch (error) {
+//     //     console.log(error.message);
+//     //   }
+//     // }
+//   });
+//   socket.on("disconnect", () => {
+//     console.log(socket.id + " leaved");
+//   });
+// });
+
 app.use((error, req, res, next) => {
   const statusCode = error?.statusCode || 500;
   const message = error?.message || "Internal server error";
@@ -80,6 +139,6 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`server is running it http://localhost:${PORT}`);
 });

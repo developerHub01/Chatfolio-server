@@ -7,9 +7,9 @@ import dotenv from "dotenv";
 dotenv.config({});
 
 export const register = async (req, res, next) => {
-  const { fullName, userName, email, password } = req.body;
+  const { fullName, userName, gender, email, password } = req.body;
 
-  if (!fullName || !userName || !email || !password)
+  if (!fullName || !userName || !gender || !email || !password)
     return next(errorHandler(405, "form is not filled"));
 
   let user = await User.findOne({ email });
@@ -24,6 +24,7 @@ export const register = async (req, res, next) => {
     const user = await User.create({
       fullName,
       userName,
+      gender,
       email,
       password: hashedPassword,
     });

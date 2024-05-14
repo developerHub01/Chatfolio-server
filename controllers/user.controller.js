@@ -29,8 +29,6 @@ const deleteImageFromCloudinary = async (
 };
 
 export const isLoggedIn = async (req, res, next) => {
-  console.log(req.user);
-
   if (!req.user || !req?.user?.id)
     next(errorHandler(401, "You are not logged in"));
 

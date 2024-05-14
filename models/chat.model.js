@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 
-const schema = new mongoose.Schema(
+const schema = new Schema(
   {
     chatName: {
       type: String,
@@ -13,7 +13,7 @@ const schema = new mongoose.Schema(
     members: {
       type: [
         {
-          type: mongoose.Types.ObjectId,
+          type: Types.ObjectId,
           ref: "User",
         },
       ],
@@ -21,10 +21,12 @@ const schema = new mongoose.Schema(
       required: true,
     },
     admin: {
-      type: {
-        type: mongoose.Types.ObjectId,
-        ref: "User",
-      },
+      type: Types.ObjectId,
+      ref: "User",
+    },
+    isConnected: {
+      type: Boolean,
+      required: false,
     },
   },
   { timestamps: true }

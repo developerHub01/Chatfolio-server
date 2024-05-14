@@ -8,4 +8,22 @@ export const WALLPAPER_IMAGES_FOLDER_NAME = "wallpaper_images";
 export const UNTRACKED_FOLDER = "untracked";
 export const CHATFOLIO_CLOUDINARY_ROOT_FOLDER_NAME = "chatfolio";
 
-export const searchTypeList = ["name", "username", "email", "group", "channel"];
+export const searchTypeList = [
+  "fullName",
+  "userName",
+  "email",
+  "group",
+  "channel",
+];
+
+export const wallpaperPositionList = [
+  "left-top",
+  "top",
+  "right-top",
+  "left",
+  "center",
+  "right",
+  "left-bottom",
+  "bottom",
+  "right-bottom",
+];
