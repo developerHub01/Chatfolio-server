@@ -1,0 +1,8 @@
+const MESSAGE_PREFERENCE_COLLECTION_NAME = "message_preference";
+
+const MESSAGE_PREFERENCE_SEARCHABLE_FIELD: Array<string> = ["text"];
+
+export const MessagePreferenceConstant = {
+  MESSAGE_PREFERENCE_COLLECTION_NAME,
+  MESSAGE_PREFERENCE_SEARCHABLE_FIELD,
+};
